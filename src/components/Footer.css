@@ -1,0 +1,18 @@
+.social-icon2 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+}
+
+.social-icon2 a i {
+    color: #fff;
+    font-size: 30px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: .5s ease;
+}
+
+.social-icon2 a:hover i {
+    transform: scale(1.2);
+}

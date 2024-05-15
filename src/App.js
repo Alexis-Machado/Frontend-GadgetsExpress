@@ -1,24 +1,69 @@
 import logo from './logo.svg';
 import './App.css';
+import { Outlet } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState } from 'react';
+import SummaryApi from './common';
+import Context from './context';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from './store/userSlice';
 
 function App() {
+  const dispatch = useDispatch()
+  const [cartProductCount, setCartProductCount] = useState(0)
+
+  const fetchUserDetails = async () => {
+    const dataResponse = await fetch(SummaryApi.current_user.url, {
+      method: SummaryApi.current_user.method,
+      credentials: 'include'
+    })
+
+    const dataApi = await dataResponse.json()
+
+    if (dataApi.success) {
+      dispatch(setUserDetails(dataApi.data))
+    }
+  }
+
+  const fetchUserAddToCart = async () => {
+    const dataResponse = await fetch(SummaryApi.addToCartProductCount.url, {
+      method: SummaryApi.addToCartProductCount.method,
+      credentials: 'include'
+    })
+
+    const dataApi = await dataResponse.json()
+
+    setCartProductCount(dataApi?.data?.count)
+  }
+
+  useEffect(() => {
+    //Detalles del Usuario
+    fetchUserDetails()
+    //Detalles del Carrito de Compras
+    fetchUserAddToCart()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Context.Provider value={{
+        fetchUserDetails, // Recopilación de información del usuario
+        cartProductCount, // contador de productos que el usuario actual ha añadido al carrito
+        fetchUserAddToCart
+      }}>
+        <ToastContainer
+          position='top-center'
+        />
+
+        <Header />
+        <main className='min-h-[calc(100vh-120px)] pt-16'>  {/**Quitar el pt-16 para preubas*/}
+          <Outlet />
+        </main>
+        <Footer />
+      </Context.Provider>
+    </>
   );
 }
 
