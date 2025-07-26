@@ -13,7 +13,7 @@ const Footer = () => {
       <div className="absolute bottom-0 right-46 p-0">
         <img
           title="INSTITUCIÓN UNIVERSITARIA DIGITAL DE ANTIOQUIA ❤️🖤💙"
-          src="https://th.bing.com/th/id/R.76e1e37100b73602df45713eb2045d40?rik=rdFS7DZ3lP9Bcg&pid=ImgRaw&r=0"
+          src="https://i.ibb.co/KphwTgwT/IUD.png"
           alt="logo"
           style={{ maxWidth: '170px' }}
         />
